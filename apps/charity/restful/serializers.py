@@ -1,3 +1,4 @@
+from django.db.transaction import atomic
 from rest_framework import serializers
 
 from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot, CashProjectTransaction, \
@@ -71,7 +72,10 @@ class NonCashProjectRequestResponseSerializer(serializers.ModelSerializer):
         model = NonCashProjectRequest
         fields = ('accepted', 'rejection_reason')
 
+    @atomic
     def update(self, instance, validated_data):
         accepted = validated_data.get('accepted', False)
         validated_data['status'] = 1 if accepted else -1
+        if accepted:
+            instance.project.volunteers.add(instance.volunteer)
         return super().update(instance, validated_data)
