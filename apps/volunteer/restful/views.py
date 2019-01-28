@@ -28,7 +28,6 @@ class VolunteerTimeSlotsViewSet(viewsets.ModelViewSet):
 
 
 class AbilitiesViewSet(generics.ListAPIView):
-    permission_classes = [IsVolunteer]
     serializer_class = AbilitySerializer
     queryset = Ability.objects.all()
 
