@@ -17,3 +17,14 @@ SLOT_TIME_CHOICES = [
     (2, 'Afternoon'),
     (3, 'Night'),
 ]
+
+REQUEST_STATUS_CHOICES = [
+    (0, 'PENDING'),
+    (-1, 'REJECTED'),
+    (1, 'ACCEPTED')
+]
+
+REQUEST_TARGET_CHOICES = [
+    (0, 'CHARITY'),
+    (1, 'VOLUNTEER')
+]

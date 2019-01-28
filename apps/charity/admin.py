@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from apps.charity.models import CashProject, CashProjectTransaction, Charity, NonCashProject, NonCashProjectTimeSlot
+from apps.charity.models import CashProject, CashProjectTransaction, Charity, NonCashProject, NonCashProjectTimeSlot, \
+    NonCashProjectRequest
 
 
 class CharityAdmin(admin.ModelAdmin):
@@ -25,8 +26,13 @@ class NonCashProjectNonCashProjectTimeSlotAdmin(admin.ModelAdmin):
     list_filter = ['weekday', 'time']
 
 
+class NonCashProjectRequestAdmin(admin.ModelAdmin):
+    list_display = ['project', 'volunteer', 'charity']
+
+
 admin.site.register(Charity, CharityAdmin)
 admin.site.register(CashProject, CashProjectAdmin)
 admin.site.register(CashProjectTransaction, CashProjectTransactionAdmin)
 admin.site.register(NonCashProject, NonCashProjectAdmin)
 admin.site.register(NonCashProjectTimeSlot, NonCashProjectNonCashProjectTimeSlotAdmin)
+admin.site.register(NonCashProjectRequest, NonCashProjectRequestAdmin)

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 
-from apps.volunteer.constants import SLOT_TIME_CHOICES, WEEKDAY_CHOICES
+from apps.volunteer.constants import SLOT_TIME_CHOICES, WEEKDAY_CHOICES, REQUEST_STATUS_CHOICES, REQUEST_TARGET_CHOICES
 
 
 class Charity(models.Model):
@@ -75,3 +75,17 @@ class NonCashProjectTimeSlot(models.Model):
 
     class Meta:
         unique_together = ('project', 'weekday', 'time')
+
+
+class NonCashProjectRequest(models.Model):
+    project = models.ForeignKey('NonCashProject', on_delete=models.PROTECT, related_name='requests')
+    volunteer = models.ForeignKey('volunteer.Volunteer', on_delete=models.PROTECT, related_name='requests')
+    charity = models.ForeignKey('Charity', on_delete=models.PROTECT, related_name='requests')
+
+    target = models.IntegerField(choices=REQUEST_TARGET_CHOICES)
+    message = models.TextField(null=True, blank=True)
+    rejection_reason = models.TextField(null=True, blank=True)
+    status = models.IntegerField(choices=REQUEST_STATUS_CHOICES, db_index=True, default=0)
+
+    class Meta:
+        unique_together = ('project', 'volunteer', 'charity')
