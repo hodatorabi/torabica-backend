@@ -14,8 +14,8 @@ class AbilitySerializer(serializers.ModelSerializer):
 class VolunteerTimeSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = VolunteerTimeSlot
-        fields = ['id', 'weekday', 'time', 'is_available']
-        read_only_fields = ['id', 'weekday', 'time']
+        fields = ['id', 'weekday', 'time', 'is_available', 'upcoming_project']
+        read_only_fields = ['id', 'weekday', 'time', 'upcoming_project']
 
 
 class VolunteerSerializer(UserMixinSerializer):
