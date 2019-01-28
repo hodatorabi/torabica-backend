@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, viewsets
 
+from apps.charity.restful.serializers import CashProjectTransactionSerializer
 from apps.volunteer.models import Ability
 from apps.volunteer.restful.serializers import AbilitySerializer, VolunteerSerializer, VolunteerTimeSlotsSerializer
 from utils.permissions import IsVolunteer
@@ -32,6 +33,14 @@ class AbilitiesViewSet(generics.ListAPIView):
     queryset = Ability.objects.all()
 
 
+class CashProjectTransactionViewSet(generics.CreateAPIView):
+    permission_classes = [IsVolunteer]
+    serializer_class = CashProjectTransactionSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(volunteer=self.request.user.volunteer, project_id=self.kwargs['project'])
+
+
 volunteer_join_view = VolunteerJoinViewSet.as_view()
 volunteer_profile_view = VolunteerProfileViewSet.as_view()
 volunteer_time_slots_view = VolunteerTimeSlotsViewSet.as_view({'get': 'list'})
@@ -41,3 +50,4 @@ volunteer_time_slot_update_view = VolunteerTimeSlotsViewSet.as_view({
     'patch': 'partial_update'
 })
 abilities_view = AbilitiesViewSet.as_view()
+cash_project_create_transaction = CashProjectTransactionViewSet.as_view()

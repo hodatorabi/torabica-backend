@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot
+from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot, CashProjectTransaction
 from utils.serializers import UserMixinSerializer
 
 
@@ -29,3 +29,10 @@ class NonCashProjectTimeSlotsSerializer(serializers.ModelSerializer):
         model = NonCashProjectTimeSlot
         fields = ['weekday', 'time', 'project']
         read_only_fields = ['project']
+
+
+class CashProjectTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CashProjectTransaction
+        fields = ['project', 'volunteer', 'amount']
+        read_only_fields = ['project', 'volunteer']
