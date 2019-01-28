@@ -16,7 +16,7 @@ class VolunteerProfileViewSet(generics.RetrieveUpdateAPIView):
     serializer_class = VolunteerSerializer
 
     def get_object(self):
-        return self.request.user.volunteer
+        return self.request.volunteer
 
 
 class VolunteerTimeSlotsViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,7 @@ class VolunteerTimeSlotsViewSet(viewsets.ModelViewSet):
     lookup_field = 'id'
 
     def get_queryset(self):
-        return self.request.user.volunteer.time_slots
+        return self.request.volunteer.time_slots
 
 
 class AbilitiesViewSet(generics.ListAPIView):
@@ -38,7 +38,7 @@ class CashProjectTransactionViewSet(generics.CreateAPIView):
     serializer_class = CashProjectTransactionSerializer
 
     def perform_create(self, serializer):
-        serializer.save(volunteer=self.request.user.volunteer, project_id=self.kwargs['project'])
+        serializer.save(volunteer=self.request.volunteer, project_id=self.kwargs['project'])
 
 
 class VolunteerCashProjectsViewSet(generics.ListAPIView):
@@ -46,7 +46,7 @@ class VolunteerCashProjectsViewSet(generics.ListAPIView):
     serializer_class = CashProjectSerializer
 
     def get_queryset(self):
-        return self.request.user.volunteer.cash_projects
+        return self.request.volunteer.cash_projects
 
 
 volunteer_join_view = VolunteerJoinViewSet.as_view()

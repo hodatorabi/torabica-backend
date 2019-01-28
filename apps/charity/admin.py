@@ -27,7 +27,7 @@ class NonCashProjectNonCashProjectTimeSlotAdmin(admin.ModelAdmin):
 
 
 class NonCashProjectRequestAdmin(admin.ModelAdmin):
-    list_display = ['project', 'volunteer', 'charity']
+    list_display = ['project', 'volunteer', 'charity', 'target', 'status']
 
 
 admin.site.register(Charity, CharityAdmin)

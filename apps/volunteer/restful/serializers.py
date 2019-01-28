@@ -22,3 +22,10 @@ class VolunteerSerializer(UserMixinSerializer):
     class Meta:
         model = Volunteer
         fields = ('username', 'password', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
+
+
+class PublicVolunteerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Volunteer
+        fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
+        read_only_fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
