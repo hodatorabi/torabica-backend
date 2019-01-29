@@ -21,6 +21,7 @@ class Ability(models.Model):
 class Volunteer(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.PROTECT, related_name='volunteer')
 
+    name = models.CharField(max_length=50, db_index=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, db_index=True, null=True, blank=True)
     age = models.PositiveIntegerField(db_index=True, null=True, blank=True)
     abilities = models.ManyToManyField('Ability', related_name='users', blank=True)

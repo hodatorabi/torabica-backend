@@ -28,7 +28,7 @@ class PublicVolunteerTimeSlotsSerializer(serializers.ModelSerializer):
 class VolunteerSerializer(UserMixinSerializer):
     class Meta:
         model = Volunteer
-        fields = ('username', 'password', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
+        fields = ('username', 'password', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
 
 
 class PublicVolunteerSerializer(serializers.ModelSerializer):
@@ -36,5 +36,7 @@ class PublicVolunteerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Volunteer
-        fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
-        read_only_fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
+        fields = (
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
+        read_only_fields = (
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
