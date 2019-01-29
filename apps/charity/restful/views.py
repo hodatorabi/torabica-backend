@@ -6,6 +6,8 @@ from apps.charity.models import NonCashProjectTimeSlot
 from apps.charity.restful.serializers import CharitySerializer, CashProjectSerializer, NonCashProjectSerializer, \
     NonCashProjectTimeSlotsSerializer, NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, \
     FeedbackSerializer
+from apps.volunteer.models import Volunteer
+from apps.volunteer.restful.serializers import PublicVolunteerSerializer
 from utils.permissions import IsCharity
 
 
@@ -133,6 +135,12 @@ class FeedbacksReceivedViewSet(generics.ListAPIView):
         return self.request.charity.feedbacks.filter(target=0)
 
 
+class VolunteersViewSet(generics.ListAPIView):
+    permission_classes = [IsCharity]
+    serializer_class = PublicVolunteerSerializer
+    queryset = Volunteer.objects.all()
+
+
 charity_join_view = JoinCharityViewSet.as_view()
 charity_profile_view = CharityProfileViewSet.as_view()
 charity_cash_project_create_view = CashProjectCreateViewSet.as_view()
@@ -147,3 +155,4 @@ charity_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 charity_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
 charity_feedback_view = FeedbackViewSet.as_view()
 charity_feedbacks_view = FeedbacksReceivedViewSet.as_view()
+volunteers_view = VolunteersViewSet.as_view()

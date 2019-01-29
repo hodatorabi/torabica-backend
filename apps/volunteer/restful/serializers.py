@@ -18,6 +18,13 @@ class VolunteerTimeSlotsSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'weekday', 'time', 'upcoming_project']
 
 
+class PublicVolunteerTimeSlotsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VolunteerTimeSlot
+        fields = ['id', 'weekday', 'time', 'is_available']
+        read_only_fields = ['id', 'weekday', 'time']
+
+
 class VolunteerSerializer(UserMixinSerializer):
     class Meta:
         model = Volunteer
@@ -25,7 +32,9 @@ class VolunteerSerializer(UserMixinSerializer):
 
 
 class PublicVolunteerSerializer(serializers.ModelSerializer):
+    time_slots = PublicVolunteerTimeSlotsSerializer(read_only=True, many=True)
+
     class Meta:
         model = Volunteer
-        fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
-        read_only_fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
+        fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
+        read_only_fields = ('id', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
