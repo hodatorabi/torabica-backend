@@ -125,7 +125,7 @@ class FeedbackViewSet(generics.CreateAPIView):
         )
 
 
-class FeedbacksReceived(generics.ListAPIView):
+class FeedbacksReceivedViewSet(generics.ListAPIView):
     permission_classes = [IsCharity]
     serializer_class = FeedbackSerializer
 
@@ -146,4 +146,4 @@ charity_requests_response_view = NonCashProjectRequestResponseViewSet.as_view()
 charity_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 charity_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
 charity_feedback_view = FeedbackViewSet.as_view()
-charity_feedbacks_view = FeedbacksReceived.as_view()
+charity_feedbacks_view = FeedbacksReceivedViewSet.as_view()

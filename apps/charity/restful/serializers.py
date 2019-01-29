@@ -30,6 +30,16 @@ class CashProjectSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'funded_amount', 'charity']
 
 
+class PublicCashProjectSerializer(serializers.ModelSerializer):
+    charity = PublicCharitySerializer(read_only=True)
+
+    class Meta:
+        model = CashProject
+        fields = ['id', 'start_date', 'end_date', 'name', 'description', 'target_amount', 'funded_amount', 'charity']
+        read_only_fields = ['id', 'start_date', 'end_date', 'name', 'description', 'target_amount',
+                            'funded_amount', 'charity']
+
+
 class NonCashProjectSerializer(serializers.ModelSerializer):
     charity = PublicCharitySerializer(read_only=True)
 

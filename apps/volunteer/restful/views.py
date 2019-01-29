@@ -1,9 +1,10 @@
 from rest_framework import generics, permissions, viewsets
 from rest_framework.generics import get_object_or_404
 
+from apps.charity.models import CashProject
 from apps.charity.restful.serializers import CashProjectTransactionSerializer, CashProjectSerializer, \
     NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, NonCashProjectSerializer, \
-    FeedbackSerializer
+    FeedbackSerializer, PublicCashProjectSerializer
 from apps.volunteer.models import Ability
 from apps.volunteer.restful.serializers import AbilitySerializer, VolunteerSerializer, VolunteerTimeSlotsSerializer
 from utils.permissions import IsVolunteer
@@ -109,12 +110,20 @@ class FeedbackViewSet(generics.CreateAPIView):
         )
 
 
-class FeedbacksReceived(generics.ListAPIView):
+class FeedbacksReceivedViewSet(generics.ListAPIView):
     permission_classes = [IsVolunteer]
     serializer_class = FeedbackSerializer
 
     def get_queryset(self):
         return self.request.volunteer.feedbacks.filter(target=1)
+
+
+class CashProjectsViewSet(generics.ListAPIView):
+    permission_classes = [IsVolunteer]
+    serializer_class = PublicCashProjectSerializer
+
+    def get_queryset(self):
+        return CashProject.objects.all()
 
 
 volunteer_join_view = VolunteerJoinViewSet.as_view()
@@ -127,11 +136,12 @@ volunteer_time_slot_update_view = VolunteerTimeSlotsViewSet.as_view({
 })
 abilities_view = AbilitiesViewSet.as_view()
 cash_project_create_transaction = CashProjectTransactionViewSet.as_view()
-cash_projects_view = VolunteerCashProjectsViewSet.as_view()
-non_cash_projects_view = VolunteerNonCashProjectsViewSet.as_view()
+volunteer_cash_projects_view = VolunteerCashProjectsViewSet.as_view()
+volunteer_non_cash_projects_view = VolunteerNonCashProjectsViewSet.as_view()
 volunteer_non_cash_project_request_view = NonCashProjectRequestViewSet.as_view()
 volunteer_requests_response_view = NonCashProjectRequestResponseViewSet.as_view()
 volunteer_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 volunteer_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
 volunteer_feedback_view = FeedbackViewSet.as_view()
-volunteer_feedbacks_view = FeedbacksReceived.as_view()
+volunteer_feedbacks_view = FeedbacksReceivedViewSet.as_view()
+cash_projects_view = CashProjectsViewSet.as_view()
