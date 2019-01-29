@@ -4,7 +4,8 @@ from rest_framework.permissions import AllowAny
 
 from apps.charity.models import NonCashProjectTimeSlot
 from apps.charity.restful.serializers import CharitySerializer, CashProjectSerializer, NonCashProjectSerializer, \
-    NonCashProjectTimeSlotsSerializer, NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer
+    NonCashProjectTimeSlotsSerializer, NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, \
+    FeedbackSerializer
 from utils.permissions import IsCharity
 
 
@@ -112,15 +113,28 @@ class NonCashProjectRequestResponseViewSet(generics.UpdateAPIView):
         return get_object_or_404(self.request.charity.requests, status=0, target=0, id=self.kwargs.get('request_id'))
 
 
+class FeedbackViewSet(generics.CreateAPIView):
+    permission_classes = [IsCharity]
+    serializer_class = FeedbackSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(
+            charity=self.request.charity,
+            volunteer_id=self.kwargs.get('volunteer'),
+            target=1
+        )
+
+
 charity_join_view = JoinCharityViewSet.as_view()
 charity_profile_view = CharityProfileViewSet.as_view()
 charity_cash_project_create_view = CashProjectCreateViewSet.as_view()
 charity_cash_projects_view = CashProjectsViewSet.as_view()
-non_charity_cash_project_create_view = NonCashProjectCreateViewSet.as_view()
-non_charity_cash_projects_view = NonCashProjectsViewSet.as_view()
+charity_non_cash_project_create_view = NonCashProjectCreateViewSet.as_view()
+charity_non_cash_projects_view = NonCashProjectsViewSet.as_view()
 charity_non_cash_project_add_time_slot_view = NonCashProjectAddTimeSlotsViewSet.as_view()
 charity_non_cash_project_time_slots_view = NonCashProjectTimeSlotsViewSet.as_view()
 charity_non_cash_project_request_view = NonCashProjectRequestViewSet.as_view()
 charity_requests_response_view = NonCashProjectRequestResponseViewSet.as_view()
 charity_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 charity_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
+charity_feedback_view = FeedbackViewSet.as_view()

@@ -2,7 +2,8 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 
-from apps.volunteer.constants import SLOT_TIME_CHOICES, WEEKDAY_CHOICES, REQUEST_STATUS_CHOICES, REQUEST_TARGET_CHOICES
+from apps.volunteer.constants import SLOT_TIME_CHOICES, WEEKDAY_CHOICES, REQUEST_STATUS_CHOICES, REQUEST_TARGET_CHOICES, \
+    RATING_CHOICES
 
 
 class Charity(models.Model):
@@ -89,3 +90,15 @@ class NonCashProjectRequest(models.Model):
 
     class Meta:
         unique_together = ('project', 'volunteer', 'charity')
+
+
+class Feedback(models.Model):
+    volunteer = models.ForeignKey('volunteer.Volunteer', on_delete=models.PROTECT, related_name='feedbacks')
+    charity = models.ForeignKey('Charity', on_delete=models.PROTECT, related_name='feedbacks')
+
+    target = models.IntegerField(choices=REQUEST_TARGET_CHOICES)
+    comment = models.TextField(null=True, blank=True)
+    rating = models.IntegerField(choices=RATING_CHOICES, db_index=True)
+
+    class Meta:
+        unique_together = ('target', 'volunteer', 'charity')
