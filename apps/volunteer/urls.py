@@ -4,7 +4,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from apps.volunteer.restful.views import abilities_view, volunteer_join_view, volunteer_profile_view, \
     volunteer_time_slot_update_view, volunteer_time_slots_view, cash_project_create_transaction, cash_projects_view, \
     volunteer_incoming_requests_view, volunteer_outgoing_requests_view, volunteer_requests_response_view, \
-    volunteer_non_cash_project_request_view, non_cash_projects_view
+    volunteer_non_cash_project_request_view, non_cash_projects_view, volunteer_feedback_view
 
 requests_urlpatterns = [
     path('incoming/', volunteer_incoming_requests_view),
@@ -23,5 +23,6 @@ urlpatterns = [
     path('my-cash-projects/', cash_projects_view),
     path('my-non-cash-projects/', non_cash_projects_view),
     path('request/<charity>/<project>/', volunteer_non_cash_project_request_view),
-    path('requests/', include(requests_urlpatterns))
+    path('requests/', include(requests_urlpatterns)),
+    path('give-feedback/<charity>', volunteer_feedback_view)
 ]

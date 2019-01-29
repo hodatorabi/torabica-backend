@@ -2,7 +2,8 @@ from rest_framework import generics, permissions, viewsets
 from rest_framework.generics import get_object_or_404
 
 from apps.charity.restful.serializers import CashProjectTransactionSerializer, CashProjectSerializer, \
-    NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, NonCashProjectSerializer
+    NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, NonCashProjectSerializer, \
+    FeedbackSerializer
 from apps.volunteer.models import Ability
 from apps.volunteer.restful.serializers import AbilitySerializer, VolunteerSerializer, VolunteerTimeSlotsSerializer
 from utils.permissions import IsVolunteer
@@ -96,6 +97,18 @@ class NonCashProjectRequestResponseViewSet(generics.UpdateAPIView):
         return get_object_or_404(self.request.volunteer.requests, status=0, target=1, id=self.kwargs.get('request_id'))
 
 
+class FeedbackViewSet(generics.CreateAPIView):
+    permission_classes = [IsVolunteer]
+    serializer_class = FeedbackSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(
+            volunteer=self.request.volunteer,
+            charity_id=self.kwargs.get('charity'),
+            target=0
+        )
+
+
 volunteer_join_view = VolunteerJoinViewSet.as_view()
 volunteer_profile_view = VolunteerProfileViewSet.as_view()
 volunteer_time_slots_view = VolunteerTimeSlotsViewSet.as_view({'get': 'list'})
@@ -112,3 +125,4 @@ volunteer_non_cash_project_request_view = NonCashProjectRequestViewSet.as_view()
 volunteer_requests_response_view = NonCashProjectRequestResponseViewSet.as_view()
 volunteer_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 volunteer_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
+volunteer_feedback_view = FeedbackViewSet.as_view()
