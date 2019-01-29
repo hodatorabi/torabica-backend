@@ -125,6 +125,14 @@ class FeedbackViewSet(generics.CreateAPIView):
         )
 
 
+class FeedbacksReceived(generics.ListAPIView):
+    permission_classes = [IsCharity]
+    serializer_class = FeedbackSerializer
+
+    def get_queryset(self):
+        return self.request.charity.feedbacks.filter(target=0)
+
+
 charity_join_view = JoinCharityViewSet.as_view()
 charity_profile_view = CharityProfileViewSet.as_view()
 charity_cash_project_create_view = CashProjectCreateViewSet.as_view()
@@ -138,3 +146,4 @@ charity_requests_response_view = NonCashProjectRequestResponseViewSet.as_view()
 charity_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 charity_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
 charity_feedback_view = FeedbackViewSet.as_view()
+charity_feedbacks_view = FeedbacksReceived.as_view()
