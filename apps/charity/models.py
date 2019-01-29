@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 from django.db.models.functions import Coalesce
 
 from apps.volunteer.constants import SLOT_TIME_CHOICES, WEEKDAY_CHOICES, REQUEST_STATUS_CHOICES, REQUEST_TARGET_CHOICES, \
@@ -20,6 +20,10 @@ class Charity(models.Model):
     @property
     def username(self):
         return self.user.username
+
+    @property
+    def avg_rating(self):
+        return self.feedbacks.filter(target=0).aggregate(avg_amount=Coalesce(Avg('rating'), 0))['avg_amount']
 
     def __str__(self):
         return self.name

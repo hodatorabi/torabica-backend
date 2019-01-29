@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions, viewsets
 from rest_framework.generics import get_object_or_404
 
-from apps.base_serializers import PublicCashProjectSerializer, PublicNonCashProjectSerializer
-from apps.charity.models import CashProject, NonCashProject
+from apps.base_serializers import PublicCashProjectSerializer, PublicNonCashProjectSerializer, PublicCharitySerializer
+from apps.charity.models import CashProject, NonCashProject, Charity
 from apps.charity.restful.serializers import CashProjectTransactionSerializer, CashProjectSerializer, \
     NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, NonCashProjectSerializer, \
     FeedbackSerializer
@@ -133,6 +133,14 @@ class NonCashProjectsViewSet(generics.ListAPIView):
     queryset = NonCashProject.objects.all()
 
 
+class CharityViewSet(generics.RetrieveAPIView):
+    queryset = Charity.objects.all()
+    permission_classes = [IsVolunteer]
+    serializer_class = PublicCharitySerializer
+    lookup_url_kwarg = 'charity'
+    lookup_field = 'id'
+
+
 volunteer_join_view = VolunteerJoinViewSet.as_view()
 volunteer_profile_view = VolunteerProfileViewSet.as_view()
 volunteer_time_slots_view = VolunteerTimeSlotsViewSet.as_view({'get': 'list'})
@@ -153,3 +161,4 @@ volunteer_feedback_view = FeedbackViewSet.as_view()
 volunteer_feedbacks_view = FeedbacksReceivedViewSet.as_view()
 cash_projects_view = CashProjectsViewSet.as_view()
 non_cash_projects_view = NonCashProjectsViewSet.as_view()
+show_charity_view = CharityViewSet.as_view()

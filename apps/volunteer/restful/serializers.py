@@ -24,4 +24,7 @@ class VolunteerTimeSlotsSerializer(serializers.ModelSerializer):
 class VolunteerSerializer(UserMixinSerializer):
     class Meta:
         model = Volunteer
-        fields = ('username', 'password', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities')
+        fields = (
+            'username', 'password', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities',
+            'avg_rating')
+        read_only_fields = ['avg_rating']

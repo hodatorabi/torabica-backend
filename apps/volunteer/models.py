@@ -1,6 +1,8 @@
 from datetime import timedelta
 
 from django.db import models
+from django.db.models import Avg
+from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -33,6 +35,10 @@ class Volunteer(models.Model):
     @property
     def username(self):
         return self.user.username
+
+    @property
+    def avg_rating(self):
+        return self.feedbacks.filter(target=1).aggregate(avg_amount=Coalesce(Avg('rating'), 0))['avg_amount']
 
     def create_initial_data(self):
         time_slots = []

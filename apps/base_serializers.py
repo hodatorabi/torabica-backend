@@ -7,8 +7,8 @@ from apps.volunteer.models import VolunteerTimeSlot, Volunteer
 class PublicCharitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Charity
-        fields = ['id', 'name', 'address', 'phone_number', 'description']
-        read_only_fields = ['id', 'name', 'address', 'phone_number', 'description']
+        fields = ['id', 'name', 'address', 'phone_number', 'description', 'avg_rating']
+        read_only_fields = ['id', 'name', 'address', 'phone_number', 'description', 'avg_rating']
 
 
 class PublicNonCashProjectTimeSlotsSerializer(serializers.ModelSerializer):
@@ -45,9 +45,11 @@ class PublicVolunteerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Volunteer
         fields = (
-            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots',
+            'avg_rating')
         read_only_fields = (
-            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots')
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots',
+            'avg_rating')
 
 
 class PublicCashProjectSerializer(serializers.ModelSerializer):

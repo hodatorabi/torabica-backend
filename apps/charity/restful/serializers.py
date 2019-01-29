@@ -10,8 +10,8 @@ from utils.serializers import UserMixinSerializer
 class CharitySerializer(UserMixinSerializer):
     class Meta:
         model = Charity
-        fields = ['id', 'username', 'password', 'name', 'address', 'phone_number', 'description']
-        read_only_fields = ['id']
+        fields = ['id', 'username', 'password', 'name', 'address', 'phone_number', 'description', 'avg_rating']
+        read_only_fields = ['id', 'avg_rating']
 
 
 class CashProjectSerializer(serializers.ModelSerializer):
