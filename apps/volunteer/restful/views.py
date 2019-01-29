@@ -109,6 +109,14 @@ class FeedbackViewSet(generics.CreateAPIView):
         )
 
 
+class FeedbacksReceived(generics.ListAPIView):
+    permission_classes = [IsVolunteer]
+    serializer_class = FeedbackSerializer
+
+    def get_queryset(self):
+        return self.request.volunteer.feedbacks.filter(target=1)
+
+
 volunteer_join_view = VolunteerJoinViewSet.as_view()
 volunteer_profile_view = VolunteerProfileViewSet.as_view()
 volunteer_time_slots_view = VolunteerTimeSlotsViewSet.as_view({'get': 'list'})
@@ -126,3 +134,4 @@ volunteer_requests_response_view = NonCashProjectRequestResponseViewSet.as_view(
 volunteer_incoming_requests_view = NonCashProjectIncomingRequestsViewSet.as_view()
 volunteer_outgoing_requests_view = NonCashProjectOutgoingRequestsViewSet.as_view()
 volunteer_feedback_view = FeedbackViewSet.as_view()
+volunteer_feedbacks_view = FeedbacksReceived.as_view()
