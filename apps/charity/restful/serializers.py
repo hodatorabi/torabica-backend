@@ -57,6 +57,18 @@ class NonCashProjectTimeSlotsSerializer(serializers.ModelSerializer):
         read_only_fields = ['project']
 
 
+class PublicNonCashProjectSerializer(serializers.ModelSerializer):
+    charity = PublicCharitySerializer(read_only=True)
+    time_slots = NonCashProjectTimeSlotsSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = NonCashProject
+        fields = ['id', 'start_date', 'end_date', 'name', 'description', 'need_male', 'need_female', 'min_age',
+                  'max_age', 'city', 'abilities', 'charity', 'time_slots']
+        read_only_fields = ['id', 'start_date', 'end_date', 'name', 'description', 'need_male', 'need_female',
+                            'min_age', 'max_age', 'city', 'abilities', 'charity', 'time_slots']
+
+
 class CashProjectTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CashProjectTransaction

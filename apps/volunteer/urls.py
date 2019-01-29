@@ -6,7 +6,7 @@ from apps.volunteer.restful.views import abilities_view, volunteer_join_view, vo
     volunteer_cash_projects_view, \
     volunteer_incoming_requests_view, volunteer_outgoing_requests_view, volunteer_requests_response_view, \
     volunteer_non_cash_project_request_view, volunteer_non_cash_projects_view, volunteer_feedback_view, \
-    volunteer_feedbacks_view, cash_projects_view
+    volunteer_feedbacks_view, cash_projects_view, non_cash_projects_view
 
 requests_urlpatterns = [
     path('incoming/', volunteer_incoming_requests_view),
@@ -28,5 +28,6 @@ urlpatterns = [
     path('requests/', include(requests_urlpatterns)),
     path('give-feedback/<charity>', volunteer_feedback_view),
     path('my-feedbacks/', volunteer_feedbacks_view),
-    path('cash-projects/', cash_projects_view)
+    path('cash-projects/', cash_projects_view),
+    path('non-cash-projects/', non_cash_projects_view)
 ]
