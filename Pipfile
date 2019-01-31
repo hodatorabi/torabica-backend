@@ -9,6 +9,10 @@ djangorestframework = "*"
 djangorestframework-jwt = "*"
 markdown = "*"
 django-filter = "*"
+python-decouple = "*"
+gunicorn = "*"
+dj-database-url = "*"
+django-heroku = "*"
 
 [dev-packages]
 
