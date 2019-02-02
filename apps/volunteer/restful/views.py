@@ -124,13 +124,63 @@ class CashProjectsViewSet(generics.ListAPIView):
     serializer_class = PublicCashProjectSerializer
 
     def get_queryset(self):
-        return CashProject.objects.all()
+        queryset = CashProject.objects.all()
+
+        name = self.request.query_params.get('name')
+        if name is not None:
+            queryset = queryset.filter(name__icontains=name)
+
+        min_target = self.request.query_params.get('min_target')
+        if min_target is not None:
+            queryset = queryset.filter(target_amount__gte=min_target)
+
+        max_target = self.request.query_params.get('max_target')
+        if min_target is not None:
+            queryset = queryset.filter(target_amount__lte=max_target)
+
+        return queryset
 
 
 class NonCashProjectsViewSet(generics.ListAPIView):
     permission_classes = [IsVolunteer]
     serializer_class = PublicNonCashProjectSerializer
-    queryset = NonCashProject.objects.all()
+
+    def get_queryset(self):
+        queryset = NonCashProject.objects.all()
+
+        name = self.request.query_params.get('name')
+        if name is not None:
+            queryset = queryset.filter(name__icontains=name)
+
+        min_age = self.request.query_params.get('min_age')
+        if min_age is not None:
+            queryset = queryset.filter(min_age__lte=int(min_age))
+
+        max_age = self.request.query_params.get('max_age')
+        if max_age is not None:
+            queryset = queryset.filter(max_age__gte=int(max_age))
+
+        need_male = self.request.query_params.get('need_male')
+        if need_male is not None:
+            queryset = queryset.filter(need_male=(need_male == 'true'))
+
+        need_female = self.request.query_params.get('need_female')
+        if need_female is not None:
+            queryset = queryset.filter(need_female=(need_female == 'true'))
+
+        city = self.request.query_params.get('city')
+        if city is not None:
+            queryset = queryset.filter(city__icontains=city)
+
+        weekday = self.request.query_params.get('weekday')
+        if weekday is not None:
+            queryset = queryset.filter(time_slots__weekday=int(weekday))
+
+        time = self.request.query_params.get('time')
+        if time is not None:
+            queryset = queryset.filter(time_slots__time=int(time))
+
+        return queryset
 
 
 class CharityViewSet(generics.RetrieveAPIView):
