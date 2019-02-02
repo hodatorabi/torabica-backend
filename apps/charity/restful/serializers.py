@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from apps.base_serializers import PublicVolunteerSerializer, PublicCharitySerializer
 from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot, CashProjectTransaction, \
-    NonCashProjectRequest, Feedback
+    NonCashProjectRequest
 from utils.serializers import UserMixinSerializer
 
 
@@ -92,13 +92,3 @@ class NonCashProjectRequestResponseSerializer(serializers.ModelSerializer):
         if accepted:
             instance.project.volunteers.add(instance.volunteer)
         return super().update(instance, validated_data)
-
-
-class FeedbackSerializer(serializers.ModelSerializer):
-    volunteer = PublicVolunteerSerializer(read_only=True)
-    charity = PublicCharitySerializer(read_only=True)
-
-    class Meta:
-        model = Feedback
-        fields = ['id', 'charity', 'volunteer', 'target', 'comment', 'rating']
-        read_only_fields = ['id', 'charity', 'volunteer', 'target']

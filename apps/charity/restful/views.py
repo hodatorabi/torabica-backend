@@ -2,11 +2,11 @@ from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny
 
-from apps.base_serializers import PublicVolunteerSerializer
+from apps.base_serializers import PublicVolunteerSerializer, FeedbackSerializer
 from apps.charity.models import NonCashProjectTimeSlot
 from apps.charity.restful.serializers import CharitySerializer, CashProjectSerializer, NonCashProjectSerializer, \
     NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, \
-    FeedbackSerializer, NonCashProjectTimeSlotsSerializer, CashProjectWithVolunteersSerializer, \
+    NonCashProjectTimeSlotsSerializer, CashProjectWithVolunteersSerializer, \
     NonCashProjectWithVolunteerSerializer
 from apps.volunteer.models import Volunteer
 from utils.permissions import IsCharity

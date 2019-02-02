@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot
+from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot, Feedback
 from apps.volunteer.models import VolunteerTimeSlot, Volunteer
 
 
@@ -39,15 +39,26 @@ class PublicVolunteerTimeSlotsSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'weekday', 'time', 'is_available', 'upcoming_project']
 
 
+class PublicFeedbackSerializer(serializers.ModelSerializer):
+    charity = PublicCharitySerializer(read_only=True)
+
+    class Meta:
+        model = Feedback
+        fields = ['id', 'charity', 'comment', 'rating']
+        read_only_fields = ['id', 'charity', 'comment', 'rating']
+
+
 class PublicVolunteerSerializer(serializers.ModelSerializer):
+    received_feedback = PublicFeedbackSerializer(read_only=True, many=True)
+
     class Meta:
         model = Volunteer
         fields = (
             'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities',
-            'avg_rating')
+            'avg_rating', 'received_feedback')
         read_only_fields = (
             'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities',
-            'avg_rating')
+            'avg_rating', 'received_feedback')
 
 
 class PublicCashProjectSerializer(serializers.ModelSerializer):
@@ -58,3 +69,13 @@ class PublicCashProjectSerializer(serializers.ModelSerializer):
         fields = ['id', 'start_date', 'end_date', 'name', 'description', 'target_amount', 'funded_amount', 'charity']
         read_only_fields = ['id', 'start_date', 'end_date', 'name', 'description', 'target_amount',
                             'funded_amount', 'charity']
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    volunteer = PublicVolunteerSerializer(read_only=True)
+    charity = PublicCharitySerializer(read_only=True)
+
+    class Meta:
+        model = Feedback
+        fields = ['id', 'charity', 'volunteer', 'target', 'comment', 'rating']
+        read_only_fields = ['id', 'charity', 'volunteer', 'target']

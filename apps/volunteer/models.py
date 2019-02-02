@@ -40,6 +40,10 @@ class Volunteer(models.Model):
     def avg_rating(self):
         return self.feedbacks.filter(target=1).aggregate(avg_amount=Coalesce(Avg('rating'), 0))['avg_amount']
 
+    @property
+    def received_feedback(self):
+        return self.feedbacks.filter(target=1)
+
     def create_initial_data(self):
         time_slots = []
         for weekday, day_name in WEEKDAY_CHOICES:
