@@ -40,15 +40,13 @@ class PublicVolunteerTimeSlotsSerializer(serializers.ModelSerializer):
 
 
 class PublicVolunteerSerializer(serializers.ModelSerializer):
-    time_slots = PublicVolunteerTimeSlotsSerializer(read_only=True, many=True)
-
     class Meta:
         model = Volunteer
         fields = (
-            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots',
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities',
             'avg_rating')
         read_only_fields = (
-            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities', 'time_slots',
+            'id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'abilities',
             'avg_rating')
 
 

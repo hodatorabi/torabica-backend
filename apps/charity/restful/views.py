@@ -6,7 +6,8 @@ from apps.base_serializers import PublicVolunteerSerializer
 from apps.charity.models import NonCashProjectTimeSlot
 from apps.charity.restful.serializers import CharitySerializer, CashProjectSerializer, NonCashProjectSerializer, \
     NonCashProjectRequestSerializer, NonCashProjectRequestResponseSerializer, \
-    FeedbackSerializer, NonCashProjectTimeSlotsSerializer
+    FeedbackSerializer, NonCashProjectTimeSlotsSerializer, CashProjectWithVolunteersSerializer, \
+    NonCashProjectWithVolunteerSerializer
 from apps.volunteer.models import Volunteer
 from utils.permissions import IsCharity
 
@@ -34,7 +35,7 @@ class CashProjectCreateViewSet(generics.CreateAPIView):
 
 class CashProjectsViewSet(generics.ListAPIView):
     permission_classes = [IsCharity]
-    serializer_class = CashProjectSerializer
+    serializer_class = CashProjectWithVolunteersSerializer
 
     def get_queryset(self):
         return self.request.charity.cash_projects
@@ -50,7 +51,7 @@ class NonCashProjectCreateViewSet(generics.CreateAPIView):
 
 class NonCashProjectsViewSet(generics.ListAPIView):
     permission_classes = [IsCharity]
-    serializer_class = NonCashProjectSerializer
+    serializer_class = NonCashProjectWithVolunteerSerializer
 
     def get_queryset(self):
         return self.request.charity.non_cash_projects
