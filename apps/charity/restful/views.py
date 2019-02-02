@@ -139,7 +139,39 @@ class FeedbacksReceivedViewSet(generics.ListAPIView):
 class VolunteersViewSet(generics.ListAPIView):
     permission_classes = [IsCharity]
     serializer_class = PublicVolunteerSerializer
-    queryset = Volunteer.objects.all()
+
+    def get_queryset(self):
+        queryset = Volunteer.objects.all()
+
+        min_age = self.request.query_params.get('min_age')
+        if min_age is not None:
+            queryset = queryset.filter(age__gte=int(min_age))
+
+        max_age = self.request.query_params.get('max_age')
+        if max_age is not None:
+            queryset = queryset.filter(age__lte=int(max_age))
+
+        city = self.request.query_params.get('city')
+        if city is not None:
+            queryset = queryset.filter(city__icontains=city)
+
+        gender = self.request.query_params.get('gender')
+        if gender is not None:
+            queryset = queryset.filter(gender=gender)
+
+        ability = self.request.query_params.get('ability')
+        if ability is not None:
+            queryset = queryset.filter(abilities__id=int(ability))
+
+        weekday = self.request.query_params.get('weekday')
+        if weekday is not None:
+            queryset = queryset.filter(time_slots__weekday=int(weekday))
+
+        time = self.request.query_params.get('time')
+        if time is not None:
+            queryset = queryset.filter(time_slots__time=int(time))
+
+        return queryset
 
 
 charity_join_view = JoinCharityViewSet.as_view()

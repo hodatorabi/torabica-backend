@@ -132,11 +132,11 @@ class CashProjectsViewSet(generics.ListAPIView):
 
         min_target = self.request.query_params.get('min_target')
         if min_target is not None:
-            queryset = queryset.filter(target_amount__gte=min_target)
+            queryset = queryset.filter(target_amount__gte=int(min_target))
 
         max_target = self.request.query_params.get('max_target')
         if min_target is not None:
-            queryset = queryset.filter(target_amount__lte=max_target)
+            queryset = queryset.filter(target_amount__lte=int(max_target))
 
         return queryset
 
