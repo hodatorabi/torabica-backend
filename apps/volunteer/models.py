@@ -15,6 +15,7 @@ class Ability(models.Model):
 
     class Meta:
         verbose_name_plural = 'abilities'
+        ordering = ('-id',)
 
     def __str__(self):
         return self.name
@@ -31,6 +32,9 @@ class Volunteer(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     city = models.CharField(max_length=40, db_index=True, null=True, blank=True)
+
+    class Meta:
+        ordering = ('-id',)
 
     @property
     def username(self):
@@ -70,6 +74,7 @@ class VolunteerTimeSlot(models.Model):
 
     class Meta:
         unique_together = ('volunteer', 'weekday', 'time')
+        ordering = ('-id',)
 
     @property
     def upcoming_project(self):

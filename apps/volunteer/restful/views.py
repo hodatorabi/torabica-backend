@@ -51,7 +51,7 @@ class VolunteerCashProjectsViewSet(generics.ListAPIView):
     serializer_class = CashProjectSerializer
 
     def get_queryset(self):
-        return self.request.volunteer.cash_projects
+        return self.request.volunteer.cash_projects.distinct('id')
 
 
 class VolunteerNonCashProjectsViewSet(generics.ListAPIView):

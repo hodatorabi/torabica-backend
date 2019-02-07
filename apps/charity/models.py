@@ -42,6 +42,7 @@ class BaseProject(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ('-id',)
 
     def __str__(self):
         return self.name
@@ -53,6 +54,9 @@ class CashProject(BaseProject):
     volunteers = models.ManyToManyField('volunteer.Volunteer', related_name='cash_projects',
                                         through='CashProjectTransaction', blank=True)
 
+    class Meta:
+        ordering = ('-id',)
+
     @property
     def funded_amount(self):
         return self.transactions.aggregate(sum_amount=Coalesce(Sum('amount'), 0))['sum_amount']
@@ -62,6 +66,9 @@ class CashProjectTransaction(models.Model):
     project = models.ForeignKey('CashProject', on_delete=models.PROTECT, related_name='transactions')
     volunteer = models.ForeignKey('volunteer.Volunteer', on_delete=models.PROTECT, related_name='transactions')
     amount = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ('-id',)
 
 
 class NonCashProject(BaseProject):
@@ -76,6 +83,9 @@ class NonCashProject(BaseProject):
     abilities = models.ManyToManyField('volunteer.Ability', related_name='projects', blank=True)
     volunteers = models.ManyToManyField('volunteer.Volunteer', related_name='non_cash_projects', blank=True)
 
+    class Meta:
+        ordering = ('-id',)
+
 
 class NonCashProjectTimeSlot(models.Model):
     project = models.ForeignKey('NonCashProject', on_delete=models.PROTECT, related_name='time_slots')
@@ -84,6 +94,7 @@ class NonCashProjectTimeSlot(models.Model):
 
     class Meta:
         unique_together = ('project', 'weekday', 'time')
+        ordering = ('-id',)
 
 
 class NonCashProjectRequest(models.Model):
@@ -98,6 +109,7 @@ class NonCashProjectRequest(models.Model):
 
     class Meta:
         unique_together = ('project', 'volunteer', 'charity')
+        ordering = ('-id',)
 
 
 class Feedback(models.Model):
@@ -110,3 +122,4 @@ class Feedback(models.Model):
 
     class Meta:
         unique_together = ('target', 'volunteer', 'charity')
+        ordering = ('-id',)
