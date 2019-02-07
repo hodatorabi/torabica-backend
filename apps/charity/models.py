@@ -25,6 +25,10 @@ class Charity(models.Model):
     def avg_rating(self):
         return self.feedbacks.filter(target=0).aggregate(avg_amount=Coalesce(Avg('rating'), 0))['avg_amount']
 
+    @property
+    def received_feedback(self):
+        return self.feedbacks.filter(target=0)
+
     def __str__(self):
         return self.name
 

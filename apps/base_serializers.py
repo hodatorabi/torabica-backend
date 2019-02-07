@@ -61,6 +61,16 @@ class PublicVolunteerSerializer(serializers.ModelSerializer):
             'avg_rating', 'received_feedback')
 
 
+class PublicCharitySerializerWithFeedbacks(serializers.ModelSerializer):
+    received_feedback = PublicFeedbackSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Charity
+        fields = ('id', 'username', 'name', 'address', 'phone_number', 'description', 'avg_rating', 'received_feedback')
+        read_only_fields = (
+            'id', 'username', 'name', 'address', 'phone_number', 'description', 'avg_rating', 'received_feedback')
+
+
 class PublicCashProjectSerializer(serializers.ModelSerializer):
     charity = PublicCharitySerializer(read_only=True)
 
