@@ -39,7 +39,7 @@ class PublicVolunteerTimeSlotsSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'weekday', 'time', 'is_available', 'upcoming_project']
 
 
-class PublicFeedbackSerializer(serializers.ModelSerializer):
+class PublicCharityFeedbackSerializer(serializers.ModelSerializer):
     charity = PublicCharitySerializer(read_only=True)
 
     class Meta:
@@ -48,8 +48,24 @@ class PublicFeedbackSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'charity', 'comment', 'rating']
 
 
+class PublicVolunteerSerializerWithoutFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Volunteer
+        fields = ('id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'avg_rating')
+        read_only_fields = ('id', 'username', 'name', 'gender', 'age', 'phone_number', 'address', 'city', 'avg_rating')
+
+
+class PublicVolunteerFeedbackSerializer(serializers.ModelSerializer):
+    volunteer = PublicVolunteerSerializerWithoutFeedbackSerializer(read_only=True)
+
+    class Meta:
+        model = Feedback
+        fields = ['id', 'volunteer', 'comment', 'rating']
+        read_only_fields = ['id', 'volunteer', 'comment', 'rating']
+
+
 class PublicVolunteerSerializer(serializers.ModelSerializer):
-    received_feedback = PublicFeedbackSerializer(read_only=True, many=True)
+    received_feedback = PublicCharityFeedbackSerializer(read_only=True, many=True)
 
     class Meta:
         model = Volunteer
@@ -62,7 +78,7 @@ class PublicVolunteerSerializer(serializers.ModelSerializer):
 
 
 class PublicCharitySerializerWithFeedbacks(serializers.ModelSerializer):
-    received_feedback = PublicFeedbackSerializer(read_only=True, many=True)
+    received_feedback = PublicVolunteerFeedbackSerializer(read_only=True, many=True)
 
     class Meta:
         model = Charity
