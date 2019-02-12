@@ -125,7 +125,10 @@ class CashProjectsViewSet(generics.ListAPIView):
     serializer_class = PublicCashProjectSerializer
 
     def get_queryset(self):
-        queryset = CashProject.objects.all()
+
+        today = date.today()
+        queryset = CashProject.objects.filter(start_date__lte=today)
+        queryset = queryset.filter(end_date__gte=today)
 
         name = self.request.query_params.get('name')
         if name is not None:
@@ -147,8 +150,8 @@ class NonCashProjectsViewSet(generics.ListAPIView):
     serializer_class = PublicNonCashProjectSerializer
 
     def get_queryset(self):
+
         today = date.today()
-        print(today)
         queryset = NonCashProject.objects.filter(start_date__lte=today)
         queryset = queryset.filter(end_date__gte=today)
 
