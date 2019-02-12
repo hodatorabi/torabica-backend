@@ -172,6 +172,10 @@ class NonCashProjectsViewSet(generics.ListAPIView):
         if city is not None:
             queryset = queryset.filter(city__icontains=city)
 
+        ability = self.request.query_params.get('ability')
+        if ability is not None:
+            queryset = queryset.filter(abilities__id=int(ability))
+
         weekday = self.request.query_params.get('weekday')
         if weekday is not None:
             queryset = queryset.filter(time_slots__weekday=int(weekday))
