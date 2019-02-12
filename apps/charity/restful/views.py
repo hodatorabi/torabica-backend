@@ -165,11 +165,11 @@ class VolunteersViewSet(generics.ListAPIView):
 
         weekday = self.request.query_params.get('weekday')
         if weekday is not None:
-            queryset = queryset.filter(time_slots__weekday=int(weekday))
+            queryset = queryset.filter(time_slots__weekday=int(weekday), time_slots__is_available=True)
 
         time = self.request.query_params.get('time')
         if time is not None:
-            queryset = queryset.filter(time_slots__time=int(time))
+            queryset = queryset.filter(time_slots__time=int(time), time_slots__is_available=True)
 
         return queryset.distinct()
 
