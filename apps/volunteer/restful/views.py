@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, viewsets
 from rest_framework.generics import get_object_or_404
+from datetime import date
 
 from apps.base_serializers import PublicCashProjectSerializer, PublicNonCashProjectSerializer, PublicCharitySerializer, \
     FeedbackSerializer, PublicCharitySerializerWithFeedbacks
@@ -146,7 +147,10 @@ class NonCashProjectsViewSet(generics.ListAPIView):
     serializer_class = PublicNonCashProjectSerializer
 
     def get_queryset(self):
-        queryset = NonCashProject.objects.all()
+        today = date.today()
+        print(today)
+        queryset = NonCashProject.objects.filter(start_date__lte=today)
+        queryset = queryset.filter(end_date__gte=today)
 
         name = self.request.query_params.get('name')
         if name is not None:
