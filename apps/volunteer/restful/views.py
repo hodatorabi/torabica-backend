@@ -138,7 +138,7 @@ class CashProjectsViewSet(generics.ListAPIView):
         if min_target is not None:
             queryset = queryset.filter(target_amount__lte=int(max_target))
 
-        return queryset
+        return queryset.distinct()
 
 
 class NonCashProjectsViewSet(generics.ListAPIView):
@@ -180,7 +180,7 @@ class NonCashProjectsViewSet(generics.ListAPIView):
         if time is not None:
             queryset = queryset.filter(time_slots__time=int(time))
 
-        return queryset
+        return queryset.distinct()
 
 
 class CharityViewSet(generics.RetrieveAPIView):

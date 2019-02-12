@@ -171,7 +171,7 @@ class VolunteersViewSet(generics.ListAPIView):
         if time is not None:
             queryset = queryset.filter(time_slots__time=int(time))
 
-        return queryset
+        return queryset.distinct()
 
 
 charity_join_view = JoinCharityViewSet.as_view()
