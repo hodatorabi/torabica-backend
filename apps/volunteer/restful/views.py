@@ -56,7 +56,7 @@ class VolunteerCashProjectsViewSet(generics.ListAPIView):
 
 class VolunteerNonCashProjectsViewSet(generics.ListAPIView):
     permission_classes = [IsVolunteer]
-    serializer_class = NonCashProjectSerializer
+    serializer_class = PublicNonCashProjectSerializer
 
     def get_queryset(self):
         return self.request.volunteer.non_cash_projects
