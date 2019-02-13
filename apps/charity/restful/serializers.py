@@ -1,7 +1,7 @@
 from django.db.transaction import atomic
 from rest_framework import serializers
 
-from apps.base_serializers import PublicVolunteerSerializer, PublicCharitySerializer
+from apps.base_serializers import PublicVolunteerSerializer, PublicCharitySerializer, PublicNonCashProjectSerializer
 from apps.charity.models import Charity, CashProject, NonCashProject, NonCashProjectTimeSlot, CashProjectTransaction, \
     NonCashProjectRequest
 from utils.serializers import UserMixinSerializer
@@ -68,7 +68,7 @@ class CashProjectTransactionSerializer(serializers.ModelSerializer):
 
 
 class NonCashProjectRequestSerializer(serializers.ModelSerializer):
-    project = NonCashProjectSerializer(read_only=True)
+    project = PublicNonCashProjectSerializer(read_only=True)
     volunteer = PublicVolunteerSerializer(read_only=True)
     charity = PublicCharitySerializer(read_only=True)
 
